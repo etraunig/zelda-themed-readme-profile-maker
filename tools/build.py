@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Gera os SVGs do perfil, o PROFILE.md (a página do perfil) e o README.md (a
-documentação do projeto, que já mostra o perfil gerado) a partir do bloco PROFILE.
+Gera o README.md (documentação, com a prévia do perfil de EXAMPLE) e os SVGs em
+assets/example/. Se existir tools/my_profile.py (ignorado pelo git), gera também o seu
+perfil em me/PROFILE.md + me/assets/ (pasta ignorada pelo git).
 
 Uso:
     pip install fonttools
@@ -9,7 +10,7 @@ Uso:
 
 O texto vira contorno (path) dentro dos SVGs, então as fontes aparecem iguais
 em qualquer navegador, sem depender de nada instalado. Por isso, para mudar
-qualquer texto, edite PROFILE e rode o script de novo em vez de editar os SVGs.
+qualquer texto, edite o dicionário (EXAMPLE ou o seu PROFILE) e rode o script de novo.
 
 Marcação dentro dos textos:
     [i:texto]  item / palavra-chave   (verde)
@@ -26,50 +27,8 @@ from fontTools.pens.transformPen import TransformPen
 
 # ═══════════════════════════════ CONTEÚDO ═══════════════════════════════
 
-PROFILE = {
-    "name": "Eduardo E. Traunig",
-    "greeting": "Hi! I'm an [i:AI] researcher at [l:PUCRS] who loves [l:videogames] "
-                "and customizing everything.",
-    "hearts": {"full": 3, "empty": 0, "bonus": 1},
-    "stamina": 0.66,  # 0 a 1
-
-    # Uma categoria só (uma aba); a grade quebra a cada 5 itens.
-    "inventory": [
-        {"label": "Weapons", "tab_image": "tab-weapons.png", "items": [
-            {"glyph": "Py", "icon": "py", "name": "Python", "selected": True, "kind": "Main weapon",
-             "description": "My main weapon for research. Most of my [i:ML] experiments "
-                            "are forged here, side by side with [i:PyTorch]."},
-            {"glyph": "Pt", "icon": "pytorch", "name": "PyTorch"},
-            {"glyph": "Jv", "icon": "java", "name": "Java"},
-            {"glyph": "C++", "icon": "cpp", "name": "C++"},
-            {"glyph": ">_", "icon": "bash", "name": "Bash"},
-            {"glyph": "Ar", "icon": "arch", "name": "Arch Linux"},
-            {"glyph": "Gh", "icon": "github", "name": "GitHub"},
-            {"glyph": "VS", "icon": "vscode", "name": "VS Code"},
-        ]},
-    ],
-
-    # Diário de missões (a aba de informações). A ordem aqui é a ordem da lista; "selected"
-    # escolhe a que aparece no painel, com o ponto amarelo. "where" completa a legenda.
-    # status: "Complete", "In progress" ou "Ongoing"
-    "quests": [
-        {"kind": "Main quest", "where": "Current role", "title": "MSc Student", "link_label": "MSc Student @MALTA-Lab",
-         "text": "Master's research at [l:MALTA Lab (PUCRS)], working with [i:AI] and [i:ML].",
-         "status": "In progress", "selected": True,
-         "link": "https://portal.pucrs.br/pesquisa/estruturas-de-pesquisa/#labs-nucleos-grupos"},
-        {"kind": "Main quest", "where": "Education", "title": "B.S. in Computer Science",
-         "text": "Bachelor's degree in Computer Science at [l:PUCRS].",
-         "status": "Complete", "link": "https://portal.pucrs.br/"},
-        {"kind": "Main quest", "where": "Former role", "title": "Researcher at PET-Inf - PUCRS",
-         "link_label": "Former Researcher at PET-Inf - PUCRS",
-         "text": "Scientific researcher at [l:PET-Inf], [l:PUCRS].",
-         "status": "Complete", "link": "https://pet-inf.github.io/pet-site/"},
-    ],
-
-}
-
-# Perfil fictício usado só na prévia do README.md (assets/example/), para que a
-# documentação não exponha os dados reais de PROFILE.
+# Perfil de exemplo (fictício): é o que aparece no README.md e em assets/example/.
+# O seu perfil de verdade fica em tools/my_profile.py, fora do git (veja main()).
 EXAMPLE = {
     "name": "Wren Halloway",
     "greeting": "Well met! I'm Wren, an ML engineer at the [l:Lantern Observatory], "
@@ -824,7 +783,7 @@ def DESCRIPTIONS(p, files):
 
 def build_docs(p, files, profile):
     """README.md do repositório: explica o projeto e mostra o perfil recém-gerado."""
-    outputs = "\n".join(f"| `assets/{name}.svg` | {desc} |" for name, desc in files)
+    outputs = "\n".join(f"| `{name}.svg` | {desc} |" for name, desc in files)
     marks = "\n".join(f"| `[{k}:text]` | {label} | `{C[c]}` |" for k, label, c in
                       (("i", "item / keyword", "green"), ("l", "place", "red"), ("y", "highlight", "yellow")))
     h = p["hearts"]
@@ -857,8 +816,8 @@ run SVG animation see the first screen. Each tab is also written as a still imag
 (`menu-quests.svg`, `menu-inventory.svg`); set `MENU_ANIMATED = False` in
 `build.py` to show those stacked instead of the animation.
 
-Because the text is baked into the images, **never edit the SVGs by hand**: change the
-`PROFILE` dictionary at the top of `build.py` and run the script again.
+Because the text is baked into the images, **never edit the SVGs by hand**: change your
+profile dictionary and run the script again.
 
 ## Quick start
 
@@ -868,19 +827,32 @@ venv/bin/pip install fonttools
 venv/bin/python tools/build.py
 ```
 
-This writes:
+This always writes `README.md` (this document) and the example images in `assets/example/`.
+If `tools/my_profile.py` exists (see [Customizing](#customizing)), it also writes **your**
+profile to `me/`: `me/PROFILE.md` plus its images in `me/assets/`. Both `tools/my_profile.py`
+and `me/` are in `.gitignore`, so your personal data never ends up in this repository.
+
+Each profile build makes these images:
 
 | File | Contents |
 | --- | --- |
 {outputs}
-| `PROFILE.md` | The profile page built from `PROFILE`, ready to be used as a profile README |
-| `assets/example/` | The same images built from `EXAMPLE`, used only by the preview above |
-| `README.md` | This document |
 
 ## Customizing
 
-Edit `PROFILE` in [`tools/build.py`](tools/build.py). `EXAMPLE` has the same keys and only
-feeds the preview in this README:
+Create `tools/my_profile.py` with a `PROFILE` dictionary. The easiest start is to copy the
+`EXAMPLE` dictionary from [`tools/build.py`](tools/build.py) and rename it:
+
+```python
+# tools/my_profile.py  (ignored by git)
+PROFILE = {{
+    "name": "Your Name",
+    "greeting": "Hi! I'm a [i:developer] at [l:Some Place].",
+    # ...same keys as EXAMPLE
+}}
+```
+
+These are the keys:
 
 | Key | What it controls | Example value |
 | --- | --- | --- |
@@ -943,24 +915,27 @@ Item icons come from [skillicons.dev](https://skillicons.dev) (see the list of I
    python3 -c "import re, sys; t = open(sys.argv[1]).read(); open(sys.argv[2], 'w').write(re.search(r'<g transform=\\"translate\\(0, 0\\)\\">\\s*(<svg.*?</svg>)\\s*</g>', t, re.S).group(1) + '\\n')" vscode-download.svg tools/icons/vscode.svg
    ```
 
-3. Use it in `PROFILE`: `{{"glyph": "VS", "icon": "vscode", "name": "VS Code"}}`, then run
+3. Use it in your profile: `{{"glyph": "VS", "icon": "vscode", "name": "VS Code"}}`, then run
    `venv/bin/python tools/build.py`.
 
 ## Using it as your GitHub profile
 
 GitHub shows a profile README from a public repository named exactly like your username.
-Copy `PROFILE.md` (renamed to `README.md`) and the `assets/` folder into that repository,
-or fork this project into it and point `build.py` to write the profile to `README.md`.
+Copy `me/PROFILE.md` (renamed to `README.md`) and the `me/assets/` folder into that
+repository. The image paths in `PROFILE.md` are relative (`./assets/...`), so they keep working
+as long as both go to the root of the repository.
 
 ## Project layout
 
 ```
-assets/          generated SVGs for your profile (plus the heart shape used as input)
-assets/example/  generated SVGs for the README preview
-tools/build.py   content, styles and the generator
-tools/fonts/     Cinzel and Roboto, with their licenses
-PROFILE.md       generated profile page
-README.md        generated documentation (this file)
+assets/              the heart shape used as input
+assets/example/      generated SVGs for the README preview
+tools/build.py       example profile, styles and the generator
+tools/my_profile.py  your profile (you create it; ignored by git)
+tools/fonts/         Cinzel and Roboto, with their licenses
+tools/icons/         item icons and tab images
+me/                  your generated profile page and images (ignored by git)
+README.md            generated documentation (this file)
 ```
 
 ## Credits
@@ -987,15 +962,33 @@ def build_all(p, out):
     return files
 
 
-def main():
-    mine = build_all(PROFILE, OUT)
-    (ROOT.parent / "PROFILE.md").write_text(GENERATED + build_profile(PROFILE), encoding="utf-8")
+MY_PROFILE = ROOT / "my_profile.py"   # opcional e ignorado pelo git
+ME = ROOT.parent / "me"               # saída do seu perfil (também ignorada pelo git)
 
-    build_all(EXAMPLE, OUT / "example")
+
+def load_my_profile():
+    """Lê PROFILE de tools/my_profile.py, se o arquivo existir."""
+    if not MY_PROFILE.exists():
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("my_profile", MY_PROFILE)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.PROFILE
+
+
+def main():
+    files = build_all(EXAMPLE, OUT / "example")
     preview = build_profile(EXAMPLE, "assets/example")
-    (ROOT.parent / "README.md").write_text(build_docs(EXAMPLE, DESCRIPTIONS(PROFILE, mine), preview),
+    (ROOT.parent / "README.md").write_text(build_docs(EXAMPLE, DESCRIPTIONS(EXAMPLE, files), preview),
                                            encoding="utf-8")
-    print(f"PROFILE.md e assets/ (seu perfil), README.md e assets/example/ (exemplo) atualizados")
+    print("README.md e assets/example/ atualizados")
+
+    mine = load_my_profile()
+    if mine:
+        build_all(mine, ME / "assets")
+        (ME / "PROFILE.md").write_text(GENERATED + build_profile(mine), encoding="utf-8")
+        print(f"seu perfil: {ME}/PROFILE.md e {ME}/assets/ (fora do git)")
 
 
 if __name__ == "__main__":

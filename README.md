@@ -38,8 +38,8 @@ run SVG animation see the first screen. Each tab is also written as a still imag
 (`menu-quests.svg`, `menu-inventory.svg`); set `MENU_ANIMATED = False` in
 `build.py` to show those stacked instead of the animation.
 
-Because the text is baked into the images, **never edit the SVGs by hand**: change the
-`PROFILE` dictionary at the top of `build.py` and run the script again.
+Because the text is baked into the images, **never edit the SVGs by hand**: change your
+profile dictionary and run the script again.
 
 ## Quick start
 
@@ -49,23 +49,36 @@ venv/bin/pip install fonttools
 venv/bin/python tools/build.py
 ```
 
-This writes:
+This always writes `README.md` (this document) and the example images in `assets/example/`.
+If `tools/my_profile.py` exists (see [Customizing](#customizing)), it also writes **your**
+profile to `me/`: `me/PROFILE.md` plus its images in `me/assets/`. Both `tools/my_profile.py`
+and `me/` are in `.gitignore`, so your personal data never ends up in this repository.
+
+Each profile build makes these images:
 
 | File | Contents |
 | --- | --- |
-| `assets/hero.svg` | Hearts, stamina wheel and the greeting dialogue box |
-| `assets/menu.svg` | Animated game menu that switches between Adventure Log and Inventory |
-| `assets/menu-quests.svg` | Menu tab Adventure Log, as a still image |
-| `assets/menu-inventory.svg` | Menu tab Inventory, as a still image |
-| `assets/divider.svg` | Ornamental divider, used under the intro and at the bottom |
-| `PROFILE.md` | The profile page built from `PROFILE`, ready to be used as a profile README |
-| `assets/example/` | The same images built from `EXAMPLE`, used only by the preview above |
-| `README.md` | This document |
+| `hero.svg` | Hearts, stamina wheel and the greeting dialogue box |
+| `menu.svg` | Animated game menu that switches between Adventure Log and Inventory |
+| `menu-quests.svg` | Menu tab Adventure Log, as a still image |
+| `menu-inventory.svg` | Menu tab Inventory, as a still image |
+| `divider.svg` | Ornamental divider, used under the intro and at the bottom |
 
 ## Customizing
 
-Edit `PROFILE` in [`tools/build.py`](tools/build.py). `EXAMPLE` has the same keys and only
-feeds the preview in this README:
+Create `tools/my_profile.py` with a `PROFILE` dictionary. The easiest start is to copy the
+`EXAMPLE` dictionary from [`tools/build.py`](tools/build.py) and rename it:
+
+```python
+# tools/my_profile.py  (ignored by git)
+PROFILE = {
+    "name": "Your Name",
+    "greeting": "Hi! I'm a [i:developer] at [l:Some Place].",
+    # ...same keys as EXAMPLE
+}
+```
+
+These are the keys:
 
 | Key | What it controls | Example value |
 | --- | --- | --- |
@@ -130,24 +143,27 @@ Item icons come from [skillicons.dev](https://skillicons.dev) (see the list of I
    python3 -c "import re, sys; t = open(sys.argv[1]).read(); open(sys.argv[2], 'w').write(re.search(r'<g transform=\"translate\(0, 0\)\">\s*(<svg.*?</svg>)\s*</g>', t, re.S).group(1) + '\n')" vscode-download.svg tools/icons/vscode.svg
    ```
 
-3. Use it in `PROFILE`: `{"glyph": "VS", "icon": "vscode", "name": "VS Code"}`, then run
+3. Use it in your profile: `{"glyph": "VS", "icon": "vscode", "name": "VS Code"}`, then run
    `venv/bin/python tools/build.py`.
 
 ## Using it as your GitHub profile
 
 GitHub shows a profile README from a public repository named exactly like your username.
-Copy `PROFILE.md` (renamed to `README.md`) and the `assets/` folder into that repository,
-or fork this project into it and point `build.py` to write the profile to `README.md`.
+Copy `me/PROFILE.md` (renamed to `README.md`) and the `me/assets/` folder into that
+repository. The image paths in `PROFILE.md` are relative (`./assets/...`), so they keep working
+as long as both go to the root of the repository.
 
 ## Project layout
 
 ```
-assets/          generated SVGs for your profile (plus the heart shape used as input)
-assets/example/  generated SVGs for the README preview
-tools/build.py   content, styles and the generator
-tools/fonts/     Cinzel and Roboto, with their licenses
-PROFILE.md       generated profile page
-README.md        generated documentation (this file)
+assets/              the heart shape used as input
+assets/example/      generated SVGs for the README preview
+tools/build.py       example profile, styles and the generator
+tools/my_profile.py  your profile (you create it; ignored by git)
+tools/fonts/         Cinzel and Roboto, with their licenses
+tools/icons/         item icons and tab images
+me/                  your generated profile page and images (ignored by git)
+README.md            generated documentation (this file)
 ```
 
 ## Credits
