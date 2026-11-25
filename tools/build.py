@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Gera o README.md (documentação, com a prévia do perfil de EXAMPLE) e os SVGs em
-assets/example/. Se existir tools/my_profile.py (ignorado pelo git), gera também o seu
-perfil em me/PROFILE.md + me/assets/ (pasta ignorada pelo git).
+Gera o README.md (documentação, com a prévia do perfil de EXAMPLE) e os SVGs da
+prévia em assets/example/.
 
 Uso:
     pip install fonttools
@@ -10,7 +9,7 @@ Uso:
 
 O texto vira contorno (path) dentro dos SVGs, então as fontes aparecem iguais
 em qualquer navegador, sem depender de nada instalado. Por isso, para mudar
-qualquer texto, edite o dicionário (EXAMPLE ou o seu PROFILE) e rode o script de novo.
+qualquer texto, edite o dicionário EXAMPLE e rode o script de novo.
 
 Marcação dentro dos textos:
     [i:texto]  item / palavra-chave   (verde)
@@ -28,14 +27,13 @@ from fontTools.pens.transformPen import TransformPen
 # ═══════════════════════════════ CONTEÚDO ═══════════════════════════════
 
 # Perfil de exemplo (fictício): é o que aparece no README.md e em assets/example/.
-# O seu perfil de verdade fica em tools/my_profile.py, fora do git (veja main()).
+# Para fazer o seu, troque os dados aqui pelos seus e rode o script.
 EXAMPLE = {
     "name": "Wren Halloway",
     "greeting": "Well met! I'm Wren, an ML engineer at the [l:Lantern Observatory], "
                 "teaching [i:neural nets] to read the night sky.",
     "hearts": {"full": 3, "empty": 1, "bonus": 1},
     "stamina": 0.4,  # deadline week
-    "gems": 4096,     # contador no canto do inventário (opcional)
 
     "inventory": [
         {"label": "Weapons", "tab_image": "tab-weapons.png", "items": [
@@ -266,7 +264,7 @@ def diamond(cx, cy, r, color):
 _heart_svg = (OUT / "Herzcontainer_-_The_Legend_of_Zelda_BotW,_TotK.svg").read_text(encoding="utf-8")
 HEART = re.search(r'<path d="([^"]+)"', _heart_svg).group(1)
 C["heart"] = re.search(r'fill="(#[0-9a-fA-F]{3,6})"', _heart_svg).group(1)
-HEART_SCALE = 1.8  # ~29 x 23 px
+HEART_SCALE = 0.95  # ~15 x 12 px, nos cantos do menu
 
 
 def heart(x, y, color, scale=HEART_SCALE):
@@ -274,10 +272,9 @@ def heart(x, y, color, scale=HEART_SCALE):
             f'stroke="#1D1D1A" stroke-width="{1.5 / scale:.3f}" stroke-linejoin="round"/>')
 
 
-def stamina(cx, cy, frac):
+def stamina(cx, cy, frac, outer=15, hole=4.5):
     """Roda grossa estilo BotW: anel verde claro com furo pequeno; a parte gasta fica
     verde-escuro, começando no topo e avançando no sentido horário."""
-    outer, hole = 27, 8
     r, sw = (outer + hole) / 2, outer - hole
     circ = 2 * 3.14159265 * r
     used = circ * (1 - frac)
@@ -303,25 +300,16 @@ def blink_arrow(cx, top):
 
 def build_hero(p):
     W = 800
-    box_x, box_w, box_top = 40, 720, 132
+    box_x, box_w, box_top = 40, 720, 16   # o nome sobe ~6px acima da caixa
     size, lh = 28, 35
     lines = wrap(BOLD, p["greeting"], size, box_w - 128, C["text"])
     first = box_top + 58
     last = first + (len(lines) - 1) * lh
     arrow_top = last + 18
     box_h = arrow_top + 10 + 20 - box_top
-    H = box_top + box_h + 26
+    H = box_top + box_h + 16
 
-    hearts = []
-    x = 28
-    for kind, n in (("heart", p["hearts"]["full"]), ("heart_empty", p["hearts"]["empty"]),
-                    ("heart_bonus", p["hearts"]["bonus"])):
-        for _ in range(n):
-            hearts.append(heart(x, 26, C[kind]))
-            x += 34
-
-    body = ("".join(hearts) + stamina(W - 54, 50, p["stamina"])
-            + f'<rect x="{box_x}" y="{box_top}" width="{box_w}" height="{box_h}" rx="{min(90, box_h / 2)}" fill="#000" fill-opacity=".5"/>'
+    body = (f'<rect x="{box_x}" y="{box_top}" width="{box_w}" height="{box_h}" rx="{min(90, box_h / 2)}" fill="#000" fill-opacity=".5"/>'
             + text(BODY, p["name"], 26, box_x + 60, box_top + 12, C["tan"])
             + draw_lines(BOLD, lines, size, box_x + 64, first, lh)
             + blink_arrow(W / 2, arrow_top))
@@ -370,7 +358,7 @@ def menu_sides(left, right, page, pages):
 
 
 def menu_chrome(p, H):
-    """Fundo, corações e contador de gemas: o que não muda entre as telas."""
+    """Fundo, corações e roda de stamina: o que não muda entre as telas."""
     W = MENU_W
     # Fundo translúcido em preto neutro (como o menu do jogo escurecendo o mundo por trás):
     # o que aparece atrás é a própria página do GitHub, clara ou escura.
@@ -381,13 +369,10 @@ def menu_chrome(p, H):
     for kind, n in (("heart", p["hearts"]["full"]), ("heart_empty", p["hearts"]["empty"]),
                     ("heart_bonus", p["hearts"]["bonus"])):
         for _ in range(n):
-            out.append(heart(x, 20, C[kind], 0.95))
+            out.append(heart(x, 20, C[kind]))
             x += 18
-    if p.get("gems") is not None:
-        val = f'{p["gems"]:,}'
-        vx = W - 24 - BOLD.width(val, 18)
-        out.append(f'<polygon points="{vx - 18},{24} {vx - 12},{17} {vx - 6},{24} {vx - 12},{39}" fill="#3DDC6E" '
-                   f'stroke="#B8FFC9" stroke-width=".8"/>' + text(BOLD, val, 18, W - 24, 38, C["text"], "end"))
+    # roda no canto direito, centrada na altura dos corações (topo 20 + 12/2)
+    out.append(stamina(W - 24 - 15, 20 + 12.6 * HEART_SCALE / 2, p["stamina"]))
     return "".join(out)
 
 
@@ -664,7 +649,7 @@ def screen_parts(i, content, bottom):
 def build_menu(p, hold=5.0, swap=0.5, slide=90):
     """Menu animado como apertar R/L no jogo: a cada `hold` segundos o título e o conteúdo
     da tela atual saem por um lado enquanto os da próxima entram pelo outro (com fade).
-    Fundo, corações, gemas e rodapé ficam parados; L/R, pontinhos e dicas fazem só fade.
+    Fundo, corações, stamina e rodapé ficam parados; L/R, pontinhos e dicas fazem só fade.
     SMIL funciona dentro de <img> no GitHub; sem animação, fica parado na primeira tela."""
     screens = [fn(p) for _, fn, _ in MENU_SCREENS]
     bottom = max(b for _, b in screens)
@@ -773,7 +758,7 @@ GENERATED = "<!-- Gerado por tools/build.py. Não edite à mão: edite o script 
 
 def DESCRIPTIONS(p, files):
     """Uma linha por SVG gerado, na ordem em que main() os cria."""
-    known = {"hero": "Hearts, stamina wheel and the greeting dialogue box",
+    known = {"hero": "The greeting dialogue box",
              "menu": "Animated game menu that switches between Adventure Log and Inventory",
              "menu-inventory": "Menu tab Inventory, as a still image",
              "menu-quests": "Menu tab Adventure Log, as a still image",
@@ -790,8 +775,9 @@ def build_docs(p, files, profile):
     return GENERATED + f"""# GitHub profile builder
 
 A Python script that renders a GitHub profile README as a set of SVG images styled after an
-open-world adventure game HUD: hearts and a stamina wheel, a dialogue box, a game menu with
-an Adventure Log (your roles and degrees, as quests) and an Inventory (your tools).
+open-world adventure game: a dialogue box with your greeting, then a game menu with your
+hearts and stamina wheel, an Adventure Log (your roles and degrees, as quests) and an
+Inventory (your tools).
 
 The **Result** section below is the real output of [`tools/build.py`](tools/build.py), rendered
 from the placeholder `EXAMPLE` profile. This README is generated by the same script, so the
@@ -816,8 +802,8 @@ run SVG animation see the first screen. Each tab is also written as a still imag
 (`menu-quests.svg`, `menu-inventory.svg`); set `MENU_ANIMATED = False` in
 `build.py` to show those stacked instead of the animation.
 
-Because the text is baked into the images, **never edit the SVGs by hand**: change your
-profile dictionary and run the script again.
+Because the text is baked into the images, **never edit the SVGs by hand**: change the
+`EXAMPLE` dictionary at the top of `build.py` and run the script again.
 
 ## Quick start
 
@@ -827,12 +813,8 @@ venv/bin/pip install fonttools
 venv/bin/python tools/build.py
 ```
 
-This always writes `README.md` (this document) and the example images in `assets/example/`.
-If `tools/my_profile.py` exists (see [Customizing](#customizing)), it also writes **your**
-profile to `me/`: `me/PROFILE.md` plus its images in `me/assets/`. Both `tools/my_profile.py`
-and `me/` are in `.gitignore`, so your personal data never ends up in this repository.
-
-Each profile build makes these images:
+This writes this document (`README.md`) and the profile images in `assets/example/`,
+both built from the `EXAMPLE` dictionary:
 
 | File | Contents |
 | --- | --- |
@@ -840,27 +822,15 @@ Each profile build makes these images:
 
 ## Customizing
 
-Create `tools/my_profile.py` with a `PROFILE` dictionary. The easiest start is to copy the
-`EXAMPLE` dictionary from [`tools/build.py`](tools/build.py) and rename it:
-
-```python
-# tools/my_profile.py  (ignored by git)
-PROFILE = {{
-    "name": "Your Name",
-    "greeting": "Hi! I'm a [i:developer] at [l:Some Place].",
-    # ...same keys as EXAMPLE
-}}
-```
-
-These are the keys:
+Replace the data in the `EXAMPLE` dictionary in [`tools/build.py`](tools/build.py) with your
+own and run the script. These are the keys:
 
 | Key | What it controls | Example value |
 | --- | --- | --- |
-| `name`, `greeting` | Dialogue box in the hero | `{escape(p["name"])}` |
-| `hearts` | Hearts in the top-left: `full`, `empty` and yellow `bonus` | {h["full"]} full, {h["empty"]} empty, {h["bonus"]} bonus |
-| `stamina` | Fill of the stamina wheel, from 0 to 1 | `{p["stamina"]}` |
+| `name`, `greeting` | The intro dialogue box | `{escape(p["name"])}` |
+| `hearts` | Hearts in the menu's top-left: `full`, `empty` and yellow `bonus` | {h["full"]} full, {h["empty"]} empty, {h["bonus"]} bonus |
+| `stamina` | Fill of the stamina wheel in the menu's top-right, from 0 to 1 | `{p["stamina"]}` |
 | `inventory` | Item categories (one tab each) and their items, 5 per row; the `selected` item fills the showcase and description panel. A category's tab shows `tab_image` (an image in `tools/icons/`) or a one-letter `icon` | {len(p["inventory"])} {"category" if len(p["inventory"]) == 1 else "categories"}, {sum(len(r["items"]) for r in p["inventory"])} items |
-| `gems` | Optional counter in the inventory's top-right corner | {p.get("gems", "not set")} |
 | `quests` | Adventure Log entries (your roles and degrees), in list order; `selected` picks the one shown in the panel, `where` extends the legend, `link` adds it to the link line under the menu (`link_label` changes its text), `status` is `Complete`, `In progress` or `Ongoing` | {len(p["quests"])} entries |
 | `footer` | Optional line at the very bottom | |
 
@@ -921,20 +891,19 @@ Item icons come from [skillicons.dev](https://skillicons.dev) (see the list of I
 ## Using it as your GitHub profile
 
 GitHub shows a profile README from a public repository named exactly like your username.
-Copy `me/PROFILE.md` (renamed to `README.md`) and the `me/assets/` folder into that
-repository. The image paths in `PROFILE.md` are relative (`./assets/...`), so they keep working
-as long as both go to the root of the repository.
+After building with your data, copy the `assets/example/` folder into that repository and
+paste the HTML of the [Result](#result) section (the `<p align="center">` blocks) into its
+`README.md`. The image paths are relative (`./assets/example/...`), so they keep working as long
+as the folder keeps the same path.
 
 ## Project layout
 
 ```
 assets/              the heart shape used as input
 assets/example/      generated SVGs for the README preview
-tools/build.py       example profile, styles and the generator
-tools/my_profile.py  your profile (you create it; ignored by git)
+tools/build.py       the example profile, styles and the generator
 tools/fonts/         Cinzel and Roboto, with their licenses
 tools/icons/         item icons and tab images
-me/                  your generated profile page and images (ignored by git)
 README.md            generated documentation (this file)
 ```
 
@@ -962,33 +931,13 @@ def build_all(p, out):
     return files
 
 
-MY_PROFILE = ROOT / "my_profile.py"   # opcional e ignorado pelo git
-ME = ROOT.parent / "me"               # saída do seu perfil (também ignorada pelo git)
-
-
-def load_my_profile():
-    """Lê PROFILE de tools/my_profile.py, se o arquivo existir."""
-    if not MY_PROFILE.exists():
-        return None
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("my_profile", MY_PROFILE)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod.PROFILE
-
-
 def main():
+    # Exemplo: README.md + assets/example/.
     files = build_all(EXAMPLE, OUT / "example")
     preview = build_profile(EXAMPLE, "assets/example")
     (ROOT.parent / "README.md").write_text(build_docs(EXAMPLE, DESCRIPTIONS(EXAMPLE, files), preview),
                                            encoding="utf-8")
-    print("README.md e assets/example/ atualizados")
-
-    mine = load_my_profile()
-    if mine:
-        build_all(mine, ME / "assets")
-        (ME / "PROFILE.md").write_text(GENERATED + build_profile(mine), encoding="utf-8")
-        print(f"seu perfil: {ME}/PROFILE.md e {ME}/assets/ (fora do git)")
+    print("README.md e assets/example/ (exemplo) atualizados")
 
 
 if __name__ == "__main__":
