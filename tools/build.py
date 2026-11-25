@@ -28,24 +28,24 @@ from fontTools.pens.transformPen import TransformPen
 
 PROFILE = {
     "name": "Eduardo E. Traunig",
-    "greeting": "Hi! I'm an MSc student at [l:MALTA Lab (PUCRS)], "
-                "working with [i:AI] and [i:ML].",
+    "greeting": "Hi! I'm an [i:AI] researcher at [l:PUCRS] who loves [l:videogames] "
+                "and customizing everything.",
     "hearts": {"full": 3, "empty": 0, "bonus": 1},
     "stamina": 0.66,  # 0 a 1
 
+    # Uma categoria só (uma aba); a grade quebra a cada 5 itens.
     "inventory": [
-        {"label": "Main weapons", "items": [
-            {"glyph": "Py", "name": "Python", "selected": True, "kind": "Main weapon",
+        {"label": "Weapons", "tab_image": "tab-weapons.png", "items": [
+            {"glyph": "Py", "icon": "py", "name": "Python", "selected": True, "kind": "Main weapon",
              "description": "My main weapon for research. Most of my [i:ML] experiments "
                             "are forged here, side by side with [i:PyTorch]."},
-            {"glyph": "Pt", "name": "PyTorch"},
-            {"glyph": "Jv", "name": "Java"},
-            {"glyph": "C++", "name": "C++"},
-        ]},
-        {"label": "Tools", "items": [
-            {"glyph": "Ar", "name": "Arch Linux"},
-            {"glyph": "Gh", "name": "GitHub"},
-            {"glyph": ">_", "name": "Bash"},
+            {"glyph": "Pt", "icon": "pytorch", "name": "PyTorch"},
+            {"glyph": "Jv", "icon": "java", "name": "Java"},
+            {"glyph": "C++", "icon": "cpp", "name": "C++"},
+            {"glyph": ">_", "icon": "bash", "name": "Bash"},
+            {"glyph": "Ar", "icon": "arch", "name": "Arch Linux"},
+            {"glyph": "Gh", "icon": "github", "name": "GitHub"},
+            {"glyph": "VS", "icon": "vscode", "name": "VS Code"},
         ]},
     ],
 
@@ -53,26 +53,19 @@ PROFILE = {
     # escolhe a que aparece no painel, com o ponto amarelo. "where" completa a legenda.
     # status: "Complete", "In progress" ou "Ongoing"
     "quests": [
-        {"file": "quest-msc", "kind": "Main quest", "where": "Current role", "title": "MSc Student",
+        {"kind": "Main quest", "where": "Current role", "title": "MSc Student", "link_label": "MSc Student @MALTA-Lab",
          "text": "Master's research at [l:MALTA Lab (PUCRS)], working with [i:AI] and [i:ML].",
          "status": "In progress", "selected": True,
          "link": "https://portal.pucrs.br/pesquisa/estruturas-de-pesquisa/#labs-nucleos-grupos"},
-        {"file": "quest-degree", "kind": "Main quest", "where": "Education", "title": "B.S. in Computer Science",
+        {"kind": "Main quest", "where": "Education", "title": "B.S. in Computer Science",
          "text": "Bachelor's degree in Computer Science at [l:PUCRS].",
          "status": "Complete", "link": "https://portal.pucrs.br/"},
-        {"file": "quest-pet", "kind": "Main quest", "where": "Former role", "title": "Researcher at PET-Inf - PUCRS",
+        {"kind": "Main quest", "where": "Former role", "title": "Researcher at PET-Inf - PUCRS",
+         "link_label": "Former Researcher at PET-Inf - PUCRS",
          "text": "Scientific researcher at [l:PET-Inf], [l:PUCRS].",
          "status": "Complete", "link": "https://pet-inf.github.io/pet-site/"},
     ],
 
-    "contact": {
-        "email": "e.enes@edu.pucrs.br",
-        "title": "Send Eduardo a message?",
-        "confirm": "Send message",
-        "cancel": "Maybe later",
-    },
-
-    "footer": "Thanks for visiting, traveler.",
 }
 
 # Perfil fictício usado só na prévia do README.md (assets/example/), para que a
@@ -86,42 +79,33 @@ EXAMPLE = {
     "gems": 4096,     # contador no canto do inventário (opcional)
 
     "inventory": [
-        {"label": "Main weapons", "icon": "W", "items": [
-            {"glyph": "Py", "name": "Python", "selected": True, "kind": "Main weapon",
+        {"label": "Weapons", "tab_image": "tab-weapons.png", "items": [
+            {"glyph": "Py", "icon": "py", "name": "Python", "selected": True, "kind": "Main weapon",
              "description": "A trusty serpent staff. Casts [i:NumPy] and [i:PyTorch] "
                             "spells, and summons a [y:Jupyter] familiar on request."},
-            {"glyph": "Jx", "name": "JAX"},
-            {"glyph": "Rs", "name": "Rust"},
-            {"glyph": "SQL", "name": "SQL"},
-        ]},
-        {"label": "Tools", "items": [
-            {"glyph": "Nx", "name": "NixOS"},
-            {"glyph": "Dk", "name": "Docker"},
-            {"glyph": "Vi", "name": "Neovim"},
+            {"glyph": "Pt", "icon": "pytorch", "name": "PyTorch"},
+            {"glyph": "Rs", "icon": "rust", "name": "Rust"},
+            {"glyph": "Pg", "icon": "postgres", "name": "PostgreSQL"},
+            {"glyph": "Nx", "icon": "nix", "name": "NixOS"},
+            {"glyph": "Dk", "icon": "docker", "name": "Docker"},
+            {"glyph": "Vi", "icon": "neovim", "name": "Neovim"},
         ]},
     ],
 
     "quests": [
-        {"file": "quest-current", "kind": "Main quest", "where": "Current role", "title": "ML Engineer",
+        {"kind": "Main quest", "where": "Current role", "title": "ML Engineer", "link": "https://example.com/lantern-observatory",
          "text": "Teaching [i:neural nets] to read the night sky at the [l:Lantern Observatory].",
          "status": "In progress", "selected": True},
-        {"file": "quest-degree", "kind": "Main quest", "title": "B.S. in Astrophysics",
+        {"kind": "Main quest", "title": "B.S. in Astrophysics", "link": "https://example.com/duskwater-university",
          "text": "Graduated from [l:Duskwater University] with a thesis on mapping faint stars.",
          "status": "Complete"},
-        {"file": "quest-former", "kind": "Main quest", "where": "Former role",
-         "title": "Star Cartographer at Northwind Survey Guild",
+        {"kind": "Main quest", "where": "Former role",
+         "title": "Star Cartographer at Northwind Survey Guild", "link": "https://example.com/northwind-guild",
+         "link_label": "Former Star Cartographer",
          "text": "Charted the northern skies for the [l:Northwind Survey Guild], one constellation at a time.",
          "status": "Complete"},
     ],
 
-    "contact": {
-        "email": "wren@example.com",
-        "title": "Send Wren a raven?",
-        "confirm": "Send raven",
-        "cancel": "Maybe later",
-    },
-
-    "footer": "May your gradients never vanish, traveler.",
 }
 
 # ═══════════════════════════════ ESTILO ═══════════════════════════════
@@ -277,6 +261,8 @@ DEFS = f"""
 <radialGradient id="showcase" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFFBE6" stop-opacity=".22"/><stop offset="1" stop-color="#FFFBE6" stop-opacity="0"/></radialGradient>
 <filter id="glowPing" x="-200%" y="-200%" width="500%" height="500%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#FFD84A" flood-opacity=".9"/><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#FFB904" flood-opacity=".5"/></filter>
 <filter id="glowBorder" x="-10%" y="-60%" width="120%" height="220%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#FFF6D0" flood-opacity=".85"/><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#E3E3C8" flood-opacity=".55"/></filter>
+<filter id="inkDark" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 .114  0 0 0 0 .114  0 0 0 0 .102  0 0 0 1 0"/></filter>
+<filter id="inkTan" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 .886  0 0 0 0 .871  0 0 0 0 .827  0 0 0 .55 0"/></filter>
 <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.5"/></filter>
 """
 
@@ -292,11 +278,6 @@ def svg(w, h, body, title):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" '
             f'viewBox="0 0 {w} {h}" role="img"><title>{escape(title)}</title>'
             f'<defs>{DEFS}</defs>{body}</svg>\n')
-
-
-def scene(w, h):
-    return (f'<rect width="{w}" height="{h}" rx="6" fill="{C["page"]}"/>'
-            f'<rect width="{w}" height="{h}" rx="6" fill="url(#vignette)"/>')
 
 
 def frame(x, y, w, h, fill, selected=False, inner="#E2DED3", inner_alpha=0.3, glow=None):
@@ -388,19 +369,6 @@ def build_hero(p):
     return svg(W, H, body, f'{p["name"]}: {plain(p["greeting"])}')
 
 
-def build_title(label):
-    W, H = 800, 60
-    size, spacing = 26, 2
-    tw = TITLE.width(label, size, spacing)
-    l, r = W / 2 - tw / 2 - 22, W / 2 + tw / 2 + 22
-    body = (frame(0, 0, W, H, C["card"])
-            + f'<rect x="40" y="29.5" width="{l - 48}" height="1" fill="url(#goldLine)"/>'
-            + f'<rect x="{r + 8}" y="29.5" width="{W - 48 - r}" height="1" fill="url(#goldLine)"/>'
-            + diamond(l, 30, 3.5, C["gold"]) + diamond(r, 30, 3.5, C["gold"])
-            + text(TITLE, label, size, W / 2, 39, C["tan"], "middle", spacing))
-    return svg(W, H, body, label)
-
-
 def badge(cx, cy, letter, r=8):
     """Botão redondo de controle (L, R, A, B...)."""
     return (f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{C["tan"]}"/>'
@@ -464,30 +432,75 @@ def menu_chrome(p, H):
     return "".join(out)
 
 
-def category_tabs(labels, sel, cx0, ty=102, icons=None):
-    """Fileira de ícones de categoria; a selecionada ganha círculo, nome em cima e ◀ R ▶."""
+TABS_Y = 112      # centro dos ícones de categoria
+CONTENT_Y = 158   # onde começam a grade do inventário e a lista de missões
+
+
+def tab_image(file, cx, cy, size, ink):
+    """Ícone de aba a partir de uma imagem em tools/icons/ (embutida em base64), recolorida
+    com o filtro `ink` (inkDark na aba selecionada, inkTan nas outras)."""
+    import base64
+    data = base64.b64encode((ICONS / file).read_bytes()).decode()
+    mime = "image/svg+xml" if file.endswith(".svg") else "image/png"
+    return (f'<image x="{cx - size / 2}" y="{cy - size / 2}" width="{size}" height="{size}" '
+            f'href="data:{mime};base64,{data}" filter="url(#{ink})"/>')
+
+
+def category_tabs(labels, sel, cx0, ty=TABS_Y, icons=None, images=None):
+    """Fileira de ícones de categoria: nome da selecionada em cima, linha fina embaixo com ◀ R ▶."""
     out, tab_gap = [], 46
     t0 = cx0 - (len(labels) - 1) * tab_gap / 2
+    ly = ty + 25
+    half = max((len(labels) - 1) * tab_gap / 2 + 34, 70)
+    out.append(f'<rect x="{cx0 - half}" y="{ly - .5}" width="{2 * half}" height="1" fill="#fff" fill-opacity=".3"/>')
     for i, label in enumerate(labels):
         cx = t0 + i * tab_gap
         icon = (icons or {}).get(label) or label[:1]
+        img = (images or {}).get(label)
         if i == sel:
-            out.append(text(BODY, label, 13, cx, 74, C["text"], "middle")
+            out.append(text(BODY, label, 13, cx, ty - 28, C["text"], "middle")
                        + f'<circle cx="{cx}" cy="{ty}" r="15" fill="{C["tan"]}"/>'
-                       + text(BOLD, icon, 14, cx, ty + 5, "#1D1D1A", "middle")
-                       + f'<polygon points="{cx - 22},{ty + 25} {cx - 16},{ty + 21} {cx - 16},{ty + 29}" fill="{C["tan"]}"/>'
-                       + f'<polygon points="{cx + 22},{ty + 25} {cx + 16},{ty + 21} {cx + 16},{ty + 29}" fill="{C["tan"]}"/>'
-                       + badge(cx, ty + 25, "R", 6))
+                       + (tab_image(img, cx, ty, 18, "inkDark") if img else
+                          text(BOLD, icon, 14, cx, ty + 5, "#1D1D1A", "middle"))
+                       + f'<rect x="{cx - 24}" y="{ly - 1}" width="48" height="2" fill="{C["tan"]}"/>'
+                       + f'<polygon points="{cx - 22},{ly} {cx - 15},{ly - 4} {cx - 15},{ly + 4}" fill="{C["tan"]}"/>'
+                       + f'<polygon points="{cx + 22},{ly} {cx + 15},{ly - 4} {cx + 15},{ly + 4}" fill="{C["tan"]}"/>'
+                       + badge(cx, ly, "R", 6))
         else:
-            out.append(text(BOLD, icon, 14, cx, ty + 5, C["tan"] + "@0.55", "middle"))
+            out.append(tab_image(img, cx, ty, 18, "inkTan") if img else
+                       text(BOLD, icon, 14, cx, ty + 5, C["tan"] + "@0.55", "middle"))
     return "".join(out)
 
 
-def showcase(cx, cy, rad, label):
+ICONS = ROOT / "icons"   # ícones de https://skillicons.dev (MIT, ver tools/icons/LICENSE.txt)
+
+
+def has_icon(name):
+    """True se existe tools/icons/<name>.svg; sem arquivo, o item mostra o glyph."""
+    if name and not (ICONS / f"{name}.svg").exists():
+        print(f"aviso: tools/icons/{name}.svg não existe; usando o glyph")
+        return False
+    return bool(name)
+
+
+def item_icon(name, x, y, size):
+    """Desenha o ícone tools/icons/<name>.svg num quadrado (x, y, size). Os ids internos
+    (gradientes, clipPaths) ganham um prefixo único para não colidir quando o mesmo
+    ícone aparece mais de uma vez na imagem."""
+    svg_text = (ICONS / f"{name}.svg").read_text(encoding="utf-8").strip()
+    pre = uid("ic")
+    svg_text = re.sub(r'id="([^"]+)"', lambda m: f'id="{pre}-{m.group(1)}"', svg_text)
+    svg_text = re.sub(r'url\(#([^)]+)\)', lambda m: f'url(#{pre}-{m.group(1)})', svg_text)
+    return re.sub(r'^<svg[^>]*>', f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="0 0 256 256" fill="none">',
+                  svg_text, count=1)
+
+
+def showcase(cx, cy, rad, label, icon=None):
     return (f'<circle cx="{cx}" cy="{cy}" r="{rad * 1.6}" fill="url(#showcase)"/>'
             f'<circle cx="{cx}" cy="{cy}" r="{rad}" fill="#000" fill-opacity=".35" '
             f'stroke="{C["tan"]}" stroke-opacity=".45"/>'
-            + text(BOLD, label, fit(BOLD, label, rad * .8, rad * 1.5), cx, cy + rad * .28, C["tan"], "middle"))
+            + (item_icon(icon, cx - rad * .6, cy - rad * .6, rad * 1.2) if icon else
+               text(BOLD, label, fit(BOLD, label, rad * .8, rad * 1.5), cx, cy + rad * .28, C["tan"], "middle")))
 
 
 def inventory_screen(p):
@@ -509,9 +522,10 @@ def inventory_screen(p):
         grid.append([])
 
     out.append(category_tabs([r["label"] for r in rows], sel_row, gx + gw / 2,
-                             icons={r["label"]: r.get("icon") for r in rows}))
+                             icons={r["label"]: r.get("icon") for r in rows},
+                             images={r["label"]: r.get("tab_image") for r in rows}))
 
-    gy = 142
+    gy = CONTENT_Y
     for r, items in enumerate(grid):
         for c in range(cols):
             sx, sy = gx + c * (slot + gap), gy + r * (slot + gap)
@@ -525,9 +539,12 @@ def inventory_screen(p):
                        + (f'stroke="#FFFBE6" stroke-width="2"/>' if sel else
                           f'stroke="#fff" stroke-opacity="{.3 if it else .1}"/>'))
             if it:
-                out.append(text(BOLD, it["glyph"], fit(BOLD, it["glyph"], 20, slot - 14), sx + slot / 2, sy + 33,
-                                C["tan"], "middle")
-                           + text(BODY, it["name"], fit(BODY, it["name"], 10, slot - 8, 7), sx + slot / 2, sy + 51,
+                if has_icon(it.get("icon")):
+                    out.append(item_icon(it["icon"], sx + slot / 2 - 17, sy + 6, 34))
+                else:
+                    out.append(text(BOLD, it["glyph"], fit(BOLD, it["glyph"], 20, slot - 14), sx + slot / 2, sy + 33,
+                                    C["tan"], "middle"))
+                out.append(text(BODY, it["name"], fit(BODY, it["name"], 10, slot - 8, 7), sx + slot / 2, sy + 51,
                                   C["muted"], "middle"))
     gb = gy + len(grid) * (slot + gap) - gap
     my = (gy + gb) / 2
@@ -551,7 +568,8 @@ def inventory_screen(p):
         top, bottom = 70, py - 10
         rad = min(52, (bottom - top) / 2 - 4)
         if rad > 20:
-            out.append(showcase(px + pw / 2, (top + bottom) / 2, rad, selected["glyph"]))
+            icon = selected.get("icon") if has_icon(selected.get("icon")) else None
+            out.append(showcase(px + pw / 2, (top + bottom) / 2, rad, selected["glyph"], icon))
     return "".join(out), gb
 
 
@@ -608,10 +626,12 @@ def quests_screen(p):
     kinds = list(dict.fromkeys(q["kind"] for q in quests))
     out = []
 
-    lx, lw, rh, rgap, ly0 = 48, 352, 44, 8, 142
-    out.append(category_tabs([k + "s" for k in kinds], kinds.index(selected["kind"]), lx + lw / 2,
-                             icons={k + "s": ("!" if k.lower().startswith("main") else "?") for k in kinds}))
-    bottom = 344
+    lx, lw, rh, rgap, ly0 = 48, 352, 44, 8, CONTENT_Y
+    # título da aba sem o "Main" ("Main quest" → "Quests"); as legendas das linhas continuam com ele
+    tab = {k: re.sub(r"^main\s+", "", k, flags=re.I).capitalize() + "s" for k in kinds}
+    out.append(category_tabs([tab[k] for k in kinds], kinds.index(selected["kind"]), lx + lw / 2,
+                             icons={tab[k]: ("!" if k.lower().startswith("main") else "?") for k in kinds}))
+    bottom = CONTENT_Y + 3 * (rh + rgap) + 46   # mesma altura da grade do inventário
     visible = quests[:max(1, (bottom - ly0 + rgap) // (rh + rgap))]
     for i, q in enumerate(visible):
         y = ly0 + i * (rh + rgap)
@@ -658,7 +678,7 @@ def quests_screen(p):
 
 
 MENU_SCREENS = [
-    ("Adventure Log", quests_screen, [("Open", "A"), ("Back", "B")]),
+    ("Adventure Log", quests_screen, [("Select", "A"), ("Back", "B")]),
     ("Inventory", inventory_screen, [("Select", "A"), ("Back", "B"), ("Sort", "Y")]),
 ]
 
@@ -680,14 +700,6 @@ def screen_parts(i, content, bottom):
     right = names[i + 1] if i < n - 1 else None
     still = menu_sides(left, right, i, n) + hint_bar(bottom + 22, hints)
     return still, menu_title(title) + content
-
-
-def build_inventory(p):
-    content, bottom = inventory_screen(p)
-    H = bottom + 66
-    names = ", ".join(it["name"] for r in p["inventory"] for it in r["items"])
-    i = [s[0] for s in MENU_SCREENS].index("Inventory")
-    return svg(MENU_W, H, menu_chrome(p, H) + "".join(screen_parts(i, content, bottom)), f"Inventory: {names}")
 
 
 def build_menu(p, hold=5.0, swap=0.5, slide=90):
@@ -738,7 +750,7 @@ def build_menu(p, hold=5.0, swap=0.5, slide=90):
 MENU_TABS = {"menu-quests": 0, "menu-inventory": 1}
 
 # True: o perfil mostra o menu animado. False: mostra as três abas paradas, uma embaixo da outra.
-MENU_ANIMATED = False
+MENU_ANIMATED = True
 
 
 def build_menu_tab(p, i):
@@ -749,43 +761,6 @@ def build_menu_tab(p, i):
     content, _ = screens[i]
     return svg(MENU_W, H, menu_chrome(p, H) + saving_spinner(34, H - 22)
                + "".join(screen_parts(i, content, bottom)), f'{p["name"]}: {MENU_SCREENS[i][0]}')
-
-
-def build_quest(q):
-    W, m = 800, 14
-    cx, cw = m, W - 2 * m
-    desc = wrap(BODY, q["text"], 16, 560, C["text"])
-    last = m + 98 + (len(desc) - 1) * 23
-    ch = last + 26 - m
-    H = ch + 2 * m
-    status = q.get("status", "")
-    scol = STATUS.get(status, C["muted"])
-    body = (frame(cx, m, cw, ch, C["sheikah_bg"], inner=C["blue"], inner_alpha=0.3, glow="glowSheikah")
-            + f'<rect x="{cx + cw * .1}" y="{m}" width="{cw * .8}" height="1" fill="url(#blueLine)" opacity=".6"/>'
-            + text(BODY, q["kind"], 14, cx + 26, m + 36, C["yellow"])
-            + text(TITLE, q["title"], fit(TITLE, q["title"], 22, 520), cx + 26, m + 68, C["tan"])
-            + draw_lines(BODY, desc, 16, cx + 26, m + 98, 23))
-    if status:
-        sw = BODY.width(status, 15)
-        body += (diamond(cx + cw - 30 - sw - 12, m + 31, 3.5, scol.split("@")[0])
-                 + text(BODY, status, 15, cx + cw - 26, m + 36, scol, "end"))
-    return svg(W, H, body, f'{q["kind"]}: {q["title"]}. {plain(q["text"])} {status}')
-
-
-def build_contact(c):
-    W, H, m = 800, 242, 28
-    bw, bh, by = 200, 48, 138
-    cx1, cx2 = W / 2 - 12 - bw, W / 2 + 12
-    body = (f'<rect x="{m}" y="{m}" width="{W - 2 * m}" height="{H - 2 * m}" rx="12" fill="{C["modal"]}" filter="url(#glowTan)"/>'
-            + f'<rect x="{m}" y="{m}" width="{W - 2 * m}" height="{H - 2 * m}" rx="12" fill="{C["modal"]}"/>'
-            + text(TITLE, c["title"], 22, W / 2, 80, C["tan"], "middle")
-            + text(BODY, c["email"], 16, W / 2, 110, C["muted"], "middle")
-            + f'<rect x="{cx1}" y="{by}" width="{bw}" height="{bh}" rx="4" fill="#302912" filter="url(#glowGold)"/>'
-            + f'<rect x="{cx1 + .5}" y="{by + .5}" width="{bw - 1}" height="{bh - 1}" rx="4" fill="#302912" stroke="{C["gold"]}"/>'
-            + text(BOLD, c["confirm"], 18, cx1 + bw / 2, by + 30, C["gold"], "middle")
-            + f'<rect x="{cx2 + .5}" y="{by + .5}" width="{bw - 1}" height="{bh - 1}" rx="4" fill="none" stroke="{C["tan"]}" stroke-opacity=".3"/>'
-            + text(BODY, c["cancel"], 18, cx2 + bw / 2, by + 30, C["text"], "middle"))
-    return svg(W, H, body, f'{c["title"]} {c["email"]}')
 
 
 def build_divider():
@@ -811,12 +786,14 @@ def linked(file, alt, link, width="100%", base="assets"):
 def build_profile(p, base="assets"):
     # O menu (animado ou em abas paradas) substitui as seções antigas. Como uma imagem
     # não tem links por região, os links dos cartões e missões vão numa linha de texto abaixo.
-    links = [(q["title"], q["link"]) for q in p["quests"] if q.get("link")]
+    # "link_label" (opcional) troca o texto do link na linha abaixo do menu
+    links = [(q.get("link_label", q["title"]), q["link"]) for q in p["quests"] if q.get("link")]
     link_line = (f'<p align="center"><sub>{" · ".join(f"<a href=\"{u}\">{escape(t)}</a>" for t, u in links)}</sub></p>\n\n'
                  if links else "")
     alt = (f'{p["name"]}: {plain(p["greeting"])} '
            f'Inventory: {", ".join(it["name"] for r in p["inventory"] for it in r["items"])}. '
            f'Quests: {"; ".join(q["title"] + " (" + q.get("status", "") + ")" for q in p["quests"])}.')
+    footer = f'\n<p align="center"><sub><i>{escape(p["footer"])}</i></sub></p>\n' if p.get("footer") else ""
     if MENU_ANIMATED:
         menu = f'<p align="center">{img("menu", alt, base=base)}</p>'
     else:
@@ -824,34 +801,25 @@ def build_profile(p, base="assets"):
                              for name, i in MENU_TABS.items())
     return f"""<p align="center">{img("hero", f'{p["name"]}: {plain(p["greeting"])}', base=base)}</p>
 
-{menu}
-
-{link_line}<p align="center">{linked("contact", f'Send a message: {p["contact"]["email"]}', "mailto:" + p["contact"]["email"], base=base)}</p>
-
 <p align="center">{img("divider", "", base=base)}</p>
 
-<p align="center"><sub><i>{escape(p["footer"])}</i></sub></p>
-"""
+{menu}
+
+{link_line}<p align="center">{img("divider", "", base=base)}</p>
+{footer}"""
 
 
 GENERATED = "<!-- Gerado por tools/build.py. Não edite à mão: edite o script e rode de novo. -->\n\n"
 
 
-TITLES = {"title-inventory": "Inventory", "title-quests": "Quest Log"}
-
-
 def DESCRIPTIONS(p, files):
     """Uma linha por SVG gerado, na ordem em que main() os cria."""
     known = {"hero": "Hearts, stamina wheel and the greeting dialogue box",
-             "inventory": "Inventory menu: category tabs, item grid, showcase and description panel",
              "menu": "Animated game menu that switches between Adventure Log and Inventory",
              "menu-inventory": "Menu tab Inventory, as a still image",
              "menu-quests": "Menu tab Adventure Log, as a still image",
-             "contact": "\"Send message?\" prompt with the e-mail link",
-             "divider": "Ornamental divider above the footer"}
-    for q in p["quests"]:
-        known[q["file"]] = f'Quest log entry: {q["kind"].lower()} "{q["title"]}"'
-    return [(n, known.get(n, f'Section title "{TITLES.get(n, n)}"')) for n in files]
+             "divider": "Ornamental divider, used under the intro and at the bottom"}
+    return [(n, known[n]) for n in files]
 
 
 def build_docs(p, files, profile):
@@ -864,8 +832,7 @@ def build_docs(p, files, profile):
 
 A Python script that renders a GitHub profile README as a set of SVG images styled after an
 open-world adventure game HUD: hearts and a stamina wheel, a dialogue box, a game menu with
-an Adventure Log (your roles and degrees, as quests) and an Inventory (your tools), and a
-"send message?" prompt.
+an Adventure Log (your roles and degrees, as quests) and an Inventory (your tools).
 
 The **Result** section below is the real output of [`tools/build.py`](tools/build.py), rendered
 from the placeholder `EXAMPLE` profile. This README is generated by the same script, so the
@@ -885,7 +852,7 @@ draws every section as a standalone SVG and converts all text to vector outlines
 themes, with nothing installed on the viewer's side.
 
 The menu's "tabs" are an SVG animation (SMIL): GitHub plays it inside the `<img>`, so each
-screen crossfades into the next every few seconds without any JavaScript. Viewers that don't
+screen slides into the next every few seconds without any JavaScript. Viewers that don't
 run SVG animation see the first screen. Each tab is also written as a still image
 (`menu-quests.svg`, `menu-inventory.svg`); set `MENU_ANIMATED = False` in
 `build.py` to show those stacked instead of the animation.
@@ -920,11 +887,10 @@ feeds the preview in this README:
 | `name`, `greeting` | Dialogue box in the hero | `{escape(p["name"])}` |
 | `hearts` | Hearts in the top-left: `full`, `empty` and yellow `bonus` | {h["full"]} full, {h["empty"]} empty, {h["bonus"]} bonus |
 | `stamina` | Fill of the stamina wheel, from 0 to 1 | `{p["stamina"]}` |
-| `inventory` | Item categories (tabs) and their items; the `selected` item fills the showcase and description panel. A category can set a one-letter `icon` for its tab | {len(p["inventory"])} categories, {sum(len(r["items"]) for r in p["inventory"])} items |
+| `inventory` | Item categories (one tab each) and their items, 5 per row; the `selected` item fills the showcase and description panel. A category's tab shows `tab_image` (an image in `tools/icons/`) or a one-letter `icon` | {len(p["inventory"])} {"category" if len(p["inventory"]) == 1 else "categories"}, {sum(len(r["items"]) for r in p["inventory"])} items |
 | `gems` | Optional counter in the inventory's top-right corner | {p.get("gems", "not set")} |
-| `quests` | Adventure Log entries (your roles and degrees), in list order; `selected` picks the one shown in the panel, `where` extends the legend, `status` is `Complete`, `In progress` or `Ongoing` | {len(p["quests"])} entries |
-| `contact` | E-mail and button labels of the message prompt | |
-| `footer` | Line at the very bottom | |
+| `quests` | Adventure Log entries (your roles and degrees), in list order; `selected` picks the one shown in the panel, `where` extends the legend, `link` adds it to the link line under the menu (`link_label` changes its text), `status` is `Complete`, `In progress` or `Ongoing` | {len(p["quests"])} entries |
+| `footer` | Optional line at the very bottom | |
 
 Text fields accept inline color markup:
 
@@ -934,6 +900,51 @@ Text fields accept inline color markup:
 
 Colors live in the `C` dictionary. The heart shape and its color come from the heart SVG
 in `assets/`, so replacing that file changes every heart on the next build.
+
+## Icons
+
+Icons live in [`tools/icons/`](tools/icons) and are drawn straight into the SVGs, so the build
+never needs the internet. There are two kinds:
+
+- **Item icons** (the colored tiles in the inventory slots). Set an item's `icon` to the file
+  name without `.svg`, for example `{{"glyph": "Py", "icon": "py", "name": "Python"}}`.
+  If the file doesn't exist or `icon` is missing, the slot shows the item's `glyph` text instead.
+- **Tab images** (the symbol inside a category's round tab, like the sword on "Weapons"). Set the
+  category's `tab_image` to a file in `tools/icons/`, for example `"tab_image": "tab-weapons.png"`.
+  Use a **white** shape on a transparent background (PNG or SVG): the build recolors it dark on
+  the selected tab and light gray on the others. Keep the file small (around 96×96 px is plenty).
+
+### Adding a new item icon
+
+Item icons come from [skillicons.dev](https://skillicons.dev) (see the list of IDs there).
+
+1. Download the icon, using the dark theme:
+
+   ```sh
+   curl -s "https://skillicons.dev/icons?i=vscode&theme=dark" -o vscode-download.svg
+   ```
+
+2. Strip the wrapper. The downloaded file wraps the real icon in an extra `<svg>` and `<g>`:
+
+   ```xml
+   <svg width="48" height="48" viewBox="0 0 256 256" ...>        <- remove
+       <g transform="translate(0, 0)">                          <- remove
+         <svg xmlns="http://www.w3.org/2000/svg" width="256" ...>  <- keep from here
+           ...
+         </svg>                                                  <- ...to here
+       </g>                                                      <- remove
+   </svg>                                                        <- remove
+   ```
+
+   `build.py` expects only the inner `<svg>...</svg>` (256×256). You can delete the outer
+   lines by hand in any editor, or run this to do it:
+
+   ```sh
+   python3 -c "import re, sys; t = open(sys.argv[1]).read(); open(sys.argv[2], 'w').write(re.search(r'<g transform=\\"translate\\(0, 0\\)\\">\\s*(<svg.*?</svg>)\\s*</g>', t, re.S).group(1) + '\\n')" vscode-download.svg tools/icons/vscode.svg
+   ```
+
+3. Use it in `PROFILE`: `{{"glyph": "VS", "icon": "vscode", "name": "VS Code"}}`, then run
+   `venv/bin/python tools/build.py`.
 
 ## Using it as your GitHub profile
 
@@ -956,6 +967,8 @@ README.md        generated documentation (this file)
 
 - Fonts: [Cinzel](https://github.com/NDISCOVER/Cinzel) and [Roboto](https://github.com/googlefonts/roboto-classic),
   both under the SIL Open Font License (see `tools/fonts/`).
+- Item icons: [Skill Icons](https://github.com/tandpfun/skill-icons) by tandpfun, MIT License
+  (see `tools/icons/` and the [Icons](#icons) section).
 - The HUD style is a fan tribute to *The Legend of Zelda: Breath of the Wild / Tears of the Kingdom*.
   This project is not affiliated with or endorsed by Nintendo.
 """
@@ -964,13 +977,9 @@ README.md        generated documentation (this file)
 def build_all(p, out):
     files = {
         "hero": build_hero(p),
-        **{name: build_title(label) for name, label in TITLES.items()},
-        "inventory": build_inventory(p),
         "menu": build_menu(p),
         **{name: build_menu_tab(p, i) for name, i in MENU_TABS.items()},
-        "contact": build_contact(p["contact"]),
         "divider": build_divider(),
-        **{q["file"]: build_quest(q) for q in p["quests"]},
     }
     out.mkdir(parents=True, exist_ok=True)
     for name, content in files.items():
@@ -979,12 +988,12 @@ def build_all(p, out):
 
 
 def main():
-    build_all(PROFILE, OUT)
+    mine = build_all(PROFILE, OUT)
     (ROOT.parent / "PROFILE.md").write_text(GENERATED + build_profile(PROFILE), encoding="utf-8")
 
-    example = build_all(EXAMPLE, OUT / "example")
+    build_all(EXAMPLE, OUT / "example")
     preview = build_profile(EXAMPLE, "assets/example")
-    (ROOT.parent / "README.md").write_text(build_docs(EXAMPLE, DESCRIPTIONS(EXAMPLE, example), preview),
+    (ROOT.parent / "README.md").write_text(build_docs(EXAMPLE, DESCRIPTIONS(PROFILE, mine), preview),
                                            encoding="utf-8")
     print(f"PROFILE.md e assets/ (seu perfil), README.md e assets/example/ (exemplo) atualizados")
 
