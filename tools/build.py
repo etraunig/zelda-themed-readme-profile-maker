@@ -28,20 +28,10 @@ from fontTools.pens.transformPen import TransformPen
 
 PROFILE = {
     "name": "Eduardo E. Traunig",
-    "greeting": "Hi! I'm an MSc student at [l:MALTA Lab] ([l:PUCRS]), "
+    "greeting": "Hi! I'm an MSc student at [l:MALTA Lab (PUCRS)], "
                 "working with [i:AI] and [i:ML].",
     "hearts": {"full": 3, "empty": 0, "bonus": 1},
     "stamina": 0.66,  # 0 a 1
-
-    "cards": [
-        {"file": "card-degree", "label": "Degree", "title": "B.S. in Computer Science",
-         "sub": "[l:PUCRS]", "link": "https://portal.pucrs.br/"},
-        {"file": "card-msc", "label": "Current quest", "title": "MSc Student",
-         "sub": "[l:MALTA Lab], [l:PUCRS]", "selected": True,
-         "link": "https://portal.pucrs.br/pesquisa/estruturas-de-pesquisa/#labs-nucleos-grupos"},
-        {"file": "card-pet", "label": "Former role", "title": "Scientific Researcher",
-         "sub": "[l:PET-Inf]", "link": "https://pet-inf.github.io/pet-site/"},
-    ],
 
     "inventory": [
         {"label": "Main weapons", "items": [
@@ -59,17 +49,20 @@ PROFILE = {
         ]},
     ],
 
-    # Troque pelos seus repositórios. status: "Complete", "In progress" ou "Not started"
+    # Diário de missões (a aba de informações). A ordem aqui é a ordem da lista; "selected"
+    # escolhe a que aparece no painel, com o ponto amarelo. "where" completa a legenda.
+    # status: "Complete", "In progress" ou "Ongoing"
     "quests": [
-        {"file": "quest-1", "kind": "Main quest", "title": "repo-name",
-         "text": "One line about what the project does and what it is built with.",
-         "status": "Complete", "link": "https://github.com/SEU-USUARIO/repo-name"},
-        {"file": "quest-2", "kind": "Main quest", "title": "another-repo",
-         "text": "One line about what the project does and what it is built with.",
-         "status": "In progress", "link": "https://github.com/SEU-USUARIO/another-repo"},
-        {"file": "quest-side", "kind": "Side quest", "title": "The endless Linux setup",
-         "text": "When I'm not doing research, I'm tinkering with my [i:Arch] setup or gaming.",
-         "status": "Ongoing"},
+        {"file": "quest-msc", "kind": "Main quest", "where": "Current role", "title": "MSc Student",
+         "text": "Master's research at [l:MALTA Lab (PUCRS)], working with [i:AI] and [i:ML].",
+         "status": "In progress", "selected": True,
+         "link": "https://portal.pucrs.br/pesquisa/estruturas-de-pesquisa/#labs-nucleos-grupos"},
+        {"file": "quest-degree", "kind": "Main quest", "where": "Education", "title": "B.S. in Computer Science",
+         "text": "Bachelor's degree in Computer Science at [l:PUCRS].",
+         "status": "Complete", "link": "https://portal.pucrs.br/"},
+        {"file": "quest-pet", "kind": "Main quest", "where": "Former role", "title": "Researcher at PET-Inf - PUCRS",
+         "text": "Scientific researcher at [l:PET-Inf], [l:PUCRS].",
+         "status": "Complete", "link": "https://pet-inf.github.io/pet-site/"},
     ],
 
     "contact": {
@@ -92,15 +85,6 @@ EXAMPLE = {
     "stamina": 0.4,  # deadline week
     "gems": 4096,     # contador no canto do inventário (opcional)
 
-    "cards": [
-        {"file": "card-degree", "label": "Degree", "title": "B.S. in Astrophysics",
-         "sub": "[l:Duskwater University]"},
-        {"file": "card-current", "label": "Current quest", "title": "ML Engineer",
-         "sub": "[l:Lantern Observatory]", "selected": True},
-        {"file": "card-former", "label": "Former role", "title": "Star Cartographer",
-         "sub": "[l:Northwind Survey Guild]"},
-    ],
-
     "inventory": [
         {"label": "Main weapons", "icon": "W", "items": [
             {"glyph": "Py", "name": "Python", "selected": True, "kind": "Main weapon",
@@ -118,15 +102,16 @@ EXAMPLE = {
     ],
 
     "quests": [
-        {"file": "quest-1", "kind": "Main quest", "title": "constellation-net",
-         "text": "A [i:CNN] that spots constellations in blurry backyard telescope photos.",
+        {"file": "quest-current", "kind": "Main quest", "where": "Current role", "title": "ML Engineer",
+         "text": "Teaching [i:neural nets] to read the night sky at the [l:Lantern Observatory].",
+         "status": "In progress", "selected": True},
+        {"file": "quest-degree", "kind": "Main quest", "title": "B.S. in Astrophysics",
+         "text": "Graduated from [l:Duskwater University] with a thesis on mapping faint stars.",
          "status": "Complete"},
-        {"file": "quest-2", "kind": "Main quest", "title": "comet-tail",
-         "text": "Streaming anomaly detection for sky surveys, written in [i:Rust].",
-         "status": "In progress"},
-        {"file": "quest-side", "kind": "Side quest", "title": "The sourdough alchemist",
-         "text": "Keeping a 4-year-old starter named [y:Kepler] alive between experiments.",
-         "status": "Ongoing"},
+        {"file": "quest-former", "kind": "Main quest", "where": "Former role",
+         "title": "Star Cartographer at Northwind Survey Guild",
+         "text": "Charted the northern skies for the [l:Northwind Survey Guild], one constellation at a time.",
+         "status": "Complete"},
     ],
 
     "contact": {
@@ -287,8 +272,11 @@ DEFS = f"""
 <filter id="glowSheikah" x="-10%" y="-30%" width="120%" height="160%"><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#4FC0FF" flood-opacity=".9"/><feDropShadow dx="0" dy="1" stdDeviation="5.5" flood-color="#0A8DD7" flood-opacity=".8"/></filter>
 <filter id="glowTan" x="-10%" y="-40%" width="120%" height="180%"><feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#000"/><feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#E2DED3" flood-opacity=".7"/></filter>
 <filter id="glowGreen" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#13FF59" flood-opacity=".6"/></filter>
-<radialGradient id="menuBg" cx=".62" cy=".45" r=".8"><stop offset="0" stop-color="#3B4A3A"/><stop offset=".6" stop-color="#1F2A21"/><stop offset="1" stop-color="#0E130F"/></radialGradient>
+<linearGradient id="menuBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-opacity=".78"/><stop offset=".15" stop-opacity=".58"/><stop offset=".5" stop-opacity=".46"/><stop offset=".85" stop-opacity=".58"/><stop offset="1" stop-opacity=".78"/></linearGradient>
+<radialGradient id="menuEdge" cx=".5" cy=".5" r=".72"><stop offset=".6" stop-opacity="0"/><stop offset="1" stop-opacity=".3"/></radialGradient>
 <radialGradient id="showcase" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFFBE6" stop-opacity=".22"/><stop offset="1" stop-color="#FFFBE6" stop-opacity="0"/></radialGradient>
+<filter id="glowPing" x="-200%" y="-200%" width="500%" height="500%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#FFD84A" flood-opacity=".9"/><feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#FFB904" flood-opacity=".5"/></filter>
+<filter id="glowBorder" x="-10%" y="-60%" width="120%" height="220%"><feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#FFF6D0" flood-opacity=".85"/><feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#E3E3C8" flood-opacity=".55"/></filter>
 <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3.5"/></filter>
 """
 
@@ -413,20 +401,6 @@ def build_title(label):
     return svg(W, H, body, label)
 
 
-def build_cards(cards):
-    W, H, m = 284, 164, 12
-    size = min(fit(TITLE, c["title"], 21, 220, 14) for c in cards)
-    out = {}
-    for c in cards:
-        sub = wrap(BODY, c["sub"], 15, 220, C["muted"])
-        body = (frame(m, m, W - 2 * m, H - 2 * m, C["card"], c.get("selected", False))
-                + text(BODY, c["label"], 14, m + 22, m + 38, C["yellow"])
-                + text(TITLE, c["title"], size, m + 22, m + 78, C["tan"])
-                + draw_lines(BODY, sub, 15, m + 22, m + 108, 20))
-        out[c["file"]] = svg(W, H, body, f'{c["label"]}: {c["title"]}, {plain(c["sub"])}')
-    return out
-
-
 def badge(cx, cy, letter, r=8):
     """Botão redondo de controle (L, R, A, B...)."""
     return (f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{C["tan"]}"/>'
@@ -471,8 +445,11 @@ def menu_sides(left, right, page, pages):
 def menu_chrome(p, H):
     """Fundo, corações e contador de gemas: o que não muda entre as telas."""
     W = MENU_W
+    # Fundo translúcido em preto neutro (como o menu do jogo escurecendo o mundo por trás):
+    # o que aparece atrás é a própria página do GitHub, clara ou escura.
     out = [f'<rect width="{W}" height="{H}" rx="6" fill="url(#menuBg)"/>'
-           f'<rect width="{W}" height="{H}" rx="6" fill="url(#vignette)"/>']
+           f'<rect width="{W}" height="{H}" rx="6" fill="url(#menuEdge)"/>'
+           f'<rect x="20" y="62" width="{W - 40}" height="1" fill="#fff" fill-opacity=".14"/>']
     x = 22
     for kind, n in (("heart", p["hearts"]["full"]), ("heart_empty", p["hearts"]["empty"]),
                     ("heart_bonus", p["hearts"]["bonus"])):
@@ -544,9 +521,9 @@ def inventory_screen(p):
                 out.append(f'<rect x="{sx}" y="{sy}" width="{slot}" height="{slot}" rx="3" fill="#000" '
                            f'fill-opacity=".6" filter="url(#glowSelect)"/>')
             out.append(f'<rect x="{sx + .5}" y="{sy + .5}" width="{slot - 1}" height="{slot - 1}" rx="3" '
-                       f'fill="#000" fill-opacity="{.6 if it else .3}" '
+                       f'fill="#000" fill-opacity="{.45 if it else .2}" '
                        + (f'stroke="#FFFBE6" stroke-width="2"/>' if sel else
-                          f'stroke="{C["tan"]}" stroke-opacity="{.3 if it else .12}"/>'))
+                          f'stroke="#fff" stroke-opacity="{.3 if it else .1}"/>'))
             if it:
                 out.append(text(BOLD, it["glyph"], fit(BOLD, it["glyph"], 20, slot - 14), sx + slot / 2, sy + 33,
                                 C["tan"], "middle")
@@ -555,7 +532,7 @@ def inventory_screen(p):
     gb = gy + len(grid) * (slot + gap) - gap
     my = (gy + gb) / 2
     for ax, d in ((gx - 26, -1), (gx + gw + 26, 1)):
-        out.append(f'<polygon points="{ax + d * 8},{my} {ax - d * 4},{my - 12} {ax - d * 4},{my + 12}" fill="#F6EFD8"/>')
+        out.append(f'<polygon points="{ax + d * 8},{my} {ax - d * 4},{my - 12} {ax - d * 4},{my + 12}" fill="#fff" fill-opacity=".9"/>')
 
     px, pw = 448, 330
     if selected:
@@ -564,9 +541,8 @@ def inventory_screen(p):
         py = gb - ph
         kind = selected.get("kind", "")
         kw = BODY.width(kind, 11) + 16
-        out.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="3" fill="#0B0E0B" fill-opacity=".78" '
-                   f'stroke="{C["tan"]}" stroke-opacity=".3"/>'
-                   + f'<rect x="{px}" y="{py}" width="{pw}" height="1.5" fill="url(#goldLine)"/>'
+        out.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="3" fill="#000" fill-opacity=".5" '
+                   f'stroke="#fff" stroke-opacity=".16"/>'
                    + text(BOLD, selected["name"], 20, px + 16, py + 32, C["text"])
                    + (f'<rect x="{px + 16}" y="{py + 42}" width="{kw}" height="18" rx="2" fill="{C["red"]}" '
                       f'fill-opacity=".18" stroke="{C["red"]}" stroke-opacity=".8"/>'
@@ -586,6 +562,44 @@ def quest_bubble(x, y, color="#FFFEFF"):
             + "".join(f'<circle cx="{x + 5 + k * 5}" cy="{y + 7}" r="1.4" fill="#1D1D1A"/>' for k in range(3)))
 
 
+def quest_tab(x, y, w, h, dot=True, tw=24):
+    """Aba cinza na ponta direita da linha da missão (com pontinho escuro, se dot)."""
+    tx = x + w - tw - 3
+    return (f'<rect x="{tx}" y="{y + 3}" width="{tw}" height="{h - 6}" fill="#fff" fill-opacity=".16"/>'
+            + (f'<circle cx="{tx + tw / 2}" cy="{y + h / 2}" r="1.5" fill="#000" fill-opacity=".75"/>' if dot else ""))
+
+
+def corner_ticks(x, y, w, h, size=8, out=2.5):
+    """Triângulos claros nos quatro cantos da seleção, com o ângulo reto no canto e a ponta para dentro."""
+    tris = []
+    for cx, cy, dx, dy in ((x, y, 1, 1), (x + w, y, -1, 1), (x, y + h, 1, -1), (x + w, y + h, -1, -1)):
+        ox, oy = cx - dx * out, cy - dy * out
+        tris.append(f'{ox},{oy} {ox + dx * size},{oy} {ox},{oy + dy * size}')
+    return (f'<g fill="#FFFBE6" filter="url(#glowSelect)">'
+            + "".join(f'<polygon points="{t}"/>' for t in tris) + '</g>')
+
+
+def quest_ping(cx, cy):
+    """Marcador da missão acompanhada: anel amarelo vazado (o brilho aparece por dentro), ponto central."""
+    return (f'<circle cx="{cx}" cy="{cy}" r="5.5" fill="none" stroke="{C["sheikah_yellow"]}" '
+            f'stroke-width="2" filter="url(#glowPing)"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="2" fill="{C["sheikah_yellow"]}"/>')
+
+
+def short_link(url, size, maxw):
+    """Link sem https://, cortado com … se não couber."""
+    s = re.sub(r"^https?://", "", url).rstrip("/")
+    if BODY.width(s, size) <= maxw:
+        return s
+    while s and BODY.width(s + "…", size) > maxw:
+        s = s[:-1]
+    return s + "…"
+
+
+def quest_legend(q):
+    return q["kind"] + (f' - {q["where"]}' if q.get("where") else "")
+
+
 def quests_screen(p):
     """Diário de missões: lista de missões à esquerda e detalhes da selecionada à direita."""
     quests = p["quests"]
@@ -602,23 +616,27 @@ def quests_screen(p):
     for i, q in enumerate(visible):
         y = ly0 + i * (rh + rgap)
         sel = q is selected
-        done = q.get("status") == "Complete" and not sel
         row = []
         if sel:
-            row.append(f'<rect x="{lx}" y="{y}" width="{lw}" height="{rh}" rx="3" fill="#000" fill-opacity=".7" '
-                       f'filter="url(#glowSelect)"/>')
-        row.append(f'<rect x="{lx + .5}" y="{y + .5}" width="{lw - 1}" height="{rh - 1}" rx="3" fill="#000" '
-                   f'fill-opacity=".62" '
-                   + (f'stroke="#FFFBE6" stroke-width="2"/>' if sel else f'stroke="{C["tan"]}" stroke-opacity=".22"/>'))
-        row.append(f'<rect x="{lx + lw - 12}" y="{y + 6}" width="6" height="{rh - 12}" rx="1" fill="{C["tan"]}" '
-                   f'fill-opacity=".14"/>')
-        if sel:
-            row.append(f'<circle cx="{lx + lw - 9}" cy="{y + rh / 2}" r="5" fill="{C["yellow"]}"/>')
+            # Mesmo fundo preto das outras linhas e, por cima, a borda com brilho próprio: a luz
+            # sai da linha para os dois lados (para fora e um pouco para dentro da caixa), como no jogo.
+            row.append(f'<rect x="{lx + .5}" y="{y + .5}" width="{lw - 1}" height="{rh - 1}" rx="1" fill="#000" '
+                       f'fill-opacity=".82"/>'
+                       f'<rect x="{lx + .5}" y="{y + .5}" width="{lw - 1}" height="{rh - 1}" rx="1" fill="none" '
+                       f'stroke="#FFFBE6" stroke-width="2" filter="url(#glowBorder)"/>')
+            row.append(corner_ticks(lx, y, lw, rh))
+            row.append(quest_tab(lx, y, lw, rh, dot=False))
+            row.append(quest_ping(lx + lw - 15, y + rh / 2))   # anel por cima da aba
+        else:
+            # não selecionada (como no jogo): caixa quase preta com borda fina clara e, na ponta
+            # direita, uma aba cinza com um pontinho no meio
+            row.append(f'<rect x="{lx + .5}" y="{y + .5}" width="{lw - 1}" height="{rh - 1}" rx="1" fill="#000" '
+                       f'fill-opacity=".82" stroke="#fff" stroke-opacity=".28"/>'
+                       + quest_tab(lx, y, lw, rh))
         row.append(quest_bubble(lx + 12, y + 12))
         row.append(text(BOLD, q["title"], fit(BOLD, q["title"], 16, lw - 64), lx + 42, y + 21, C["text"]))
-        row.append(text(BODY, q.get("where", q["kind"]), 11, lx + 42, y + 36, QUEST_WHERE))
-        g = "".join(row)
-        out.append(f'<g opacity=".4">{g}</g>' if done else g)
+        row.append(text(BODY, quest_legend(q), 11, lx + 42, y + 36, QUEST_WHERE))
+        out.append("".join(row))
 
     px, py, pw = 432, 70, 346
     ph = bottom - py
@@ -626,48 +644,22 @@ def quests_screen(p):
     desc = wrap(BODY, selected["text"], 15, pw - 36, C["text"])
     scol = STATUS.get(status, C["muted"])
     link = selected.get("link", "")
-    out.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="3" fill="#0B0E0B" fill-opacity=".72" '
-               f'stroke="{C["tan"]}" stroke-opacity=".3"/>'
+    out.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" rx="3" fill="#000" fill-opacity=".5" '
+               f'stroke="#fff" stroke-opacity=".16"/>'
                + text(BOLD, selected["title"], fit(BOLD, selected["title"], 20, pw - 36), px + 18, py + 36, C["text"])
                + f'<circle cx="{px + 25}" cy="{py + 56}" r="7" fill="{C["red"]}"/>'
                + text(BOLD, "!", 11, px + 25, py + 60, C["text"], "middle")
                + text(BODY, status, 12, px + 38, py + 60, scol)
-               + text(BODY, selected.get("where", selected["kind"]), 12, px + pw - 18, py + 60, QUEST_WHERE, "end")
+               + text(BODY, quest_legend(selected), 12, px + pw - 18, py + 60, QUEST_WHERE, "end")
                + f'<rect x="{px + 18}" y="{py + 72}" width="{pw - 36}" height="1" fill="{C["tan"]}" fill-opacity=".2"/>'
                + draw_lines(BODY, desc, 15, px + 18, py + 100, 21)
-               + (text(BODY, re.sub(r"^https?://", "", link), fit(BODY, re.sub(r"^https?://", "", link), 12, pw - 36),
-                       px + 18, py + ph - 18, C["muted"]) if link else ""))
-    return "".join(out), bottom
-
-
-def profile_screen(p):
-    """Tela do aventureiro: retrato + saudação à esquerda, cartões empilhados à direita."""
-    out = []
-    cx = 220
-    words = p["name"].split()
-    initials = (words[0][:1] + (words[-1][:1] if len(words) > 1 else "")).upper()
-    out.append(showcase(cx, 128, 50, initials))
-    out.append(text(TITLE, p["name"], fit(TITLE, p["name"], 26, 340), cx, 216, C["tan"], "middle"))
-    out.append(f'<rect x="{cx - 120}" y="228" width="240" height="1" fill="url(#goldLine)"/>')
-    greet = wrap(BODY, p["greeting"], 15, 340, C["text"])
-    out.append(draw_lines(BODY, greet, 15, cx, 256, 21, "middle"))
-
-    cards = p["cards"]
-    x, w, top, bottom, gap = 432, 346, 70, 344, 10
-    h = (bottom - top - gap * (len(cards) - 1)) / len(cards)
-    for i, c in enumerate(cards):
-        y = top + i * (h + gap)
-        out.append(frame(x, y, w, h, C["card"] + "@0.85" if "@" not in C["card"] else C["card"], c.get("selected", False))
-                   + text(BODY, c["label"], 12, x + 20, y + h / 2 - 14, C["yellow"])
-                   + text(TITLE, c["title"], fit(TITLE, c["title"], 19, w - 40), x + 20, y + h / 2 + 8, C["tan"])
-                   + draw_lines(BODY, wrap(BODY, c["sub"], 13, w - 40, C["muted"])[:1], 13, x + 20, y + h / 2 + 27, 16))
+               + (text(BODY, short_link(link, 12, pw - 36), 12, px + 18, py + ph - 18, C["muted"]) if link else ""))
     return "".join(out), bottom
 
 
 MENU_SCREENS = [
-    ("Adventurer", profile_screen, [("Next", "R"), ("Close", "B")]),
-    ("Inventory", inventory_screen, [("Select", "A"), ("Back", "B"), ("Sort", "Y")]),
     ("Adventure Log", quests_screen, [("Open", "A"), ("Back", "B")]),
+    ("Inventory", inventory_screen, [("Select", "A"), ("Back", "B"), ("Sort", "Y")]),
 ]
 
 
@@ -683,7 +675,10 @@ def screen_parts(i, content, bottom):
     names = [s[0] for s in MENU_SCREENS]
     n = len(names)
     title, _, hints = MENU_SCREENS[i]
-    still = menu_sides(names[(i - 1) % n], names[(i + 1) % n], i, n) + hint_bar(bottom + 22, hints)
+    # Sem dar a volta: a primeira aba só tem R, a última só tem L (como no jogo).
+    left = names[i - 1] if i > 0 else None
+    right = names[i + 1] if i < n - 1 else None
+    still = menu_sides(left, right, i, n) + hint_bar(bottom + 22, hints)
     return still, menu_title(title) + content
 
 
@@ -691,19 +686,19 @@ def build_inventory(p):
     content, bottom = inventory_screen(p)
     H = bottom + 66
     names = ", ".join(it["name"] for r in p["inventory"] for it in r["items"])
-    return svg(MENU_W, H, menu_chrome(p, H) + "".join(screen_parts(1, content, bottom)), f"Inventory: {names}")
+    i = [s[0] for s in MENU_SCREENS].index("Inventory")
+    return svg(MENU_W, H, menu_chrome(p, H) + "".join(screen_parts(i, content, bottom)), f"Inventory: {names}")
 
 
 def build_menu(p, hold=5.0, swap=0.5, slide=90):
-    """Menu animado como apertar R no jogo: a cada `hold` segundos o título e o conteúdo
-    da tela atual saem para a esquerda enquanto os da próxima entram pela direita (com fade).
+    """Menu animado como apertar R/L no jogo: a cada `hold` segundos o título e o conteúdo
+    da tela atual saem por um lado enquanto os da próxima entram pelo outro (com fade).
     Fundo, corações, gemas e rodapé ficam parados; L/R, pontinhos e dicas fazem só fade.
     SMIL funciona dentro de <img> no GitHub; sem animação, fica parado na primeira tela."""
     screens = [fn(p) for _, fn, _ in MENU_SCREENS]
     bottom = max(b for _, b in screens)
     H = bottom + 66
     n, total = len(screens), hold * len(screens)
-    eps = 0.01
     out = [menu_chrome(p, H), saving_spinner(34, H - 22)]
     for i, (content, _) in enumerate(screens):
         start, end = i * hold, (i + 1) * hold
@@ -711,11 +706,13 @@ def build_menu(p, hold=5.0, swap=0.5, slide=90):
         # Opacidade: a tela que sai some na 1ª metade e a que entra aparece na 2ª,
         # assim as duas quase não se sobrepõem.
         h = swap / 2
+        # Avança com R (sai pela esquerda, a próxima entra pela direita); da última volta para a
+        # primeira com L, no sentido contrário (sai pela direita, a primeira entra pela esquerda).
         if i == 0:
-            move = [(0, 0), (end - swap, 0), (end, -slide), (end + eps, slide), (total - swap, slide), (total, 0)]
+            move = [(0, 0), (end - swap, 0), (end, -slide), (total - swap, -slide), (total, 0)]
             fade = [(0, 1), (end - swap, 1), (end - h, 0), (total - h, 0), (total, 1)]
         elif i == n - 1:
-            move = [(0, slide), (start - swap, slide), (start, 0), (total - swap, 0), (total, -slide)]
+            move = [(0, slide), (start - swap, slide), (start, 0), (total - swap, 0), (total, slide)]
             fade = [(0, 0), (start - h, 0), (start, 1), (total - swap, 1), (total - h, 0), (total, 0)]
         else:
             move = [(0, slide), (start - swap, slide), (start, 0), (end - swap, 0), (end, -slide), (total, -slide)]
@@ -736,6 +733,22 @@ def build_menu(p, hold=5.0, swap=0.5, slide=90):
                    + '</g>')
     titles = " / ".join(s[0] for s in MENU_SCREENS)
     return svg(MENU_W, H, "".join(out), f'{p["name"]}: game menu cycling through {titles}')
+
+
+MENU_TABS = {"menu-quests": 0, "menu-inventory": 1}
+
+# True: o perfil mostra o menu animado. False: mostra as três abas paradas, uma embaixo da outra.
+MENU_ANIMATED = False
+
+
+def build_menu_tab(p, i):
+    """Uma aba do menu sozinha, parada (sem animação), na mesma altura do menu animado."""
+    screens = [fn(p) for _, fn, _ in MENU_SCREENS]
+    bottom = max(b for _, b in screens)
+    H = bottom + 66
+    content, _ = screens[i]
+    return svg(MENU_W, H, menu_chrome(p, H) + saving_spinner(34, H - 22)
+               + "".join(screen_parts(i, content, bottom)), f'{p["name"]}: {MENU_SCREENS[i][0]}')
 
 
 def build_quest(q):
@@ -796,19 +809,22 @@ def linked(file, alt, link, width="100%", base="assets"):
 
 
 def build_profile(p, base="assets"):
-    # O menu animado substitui as seções Adventurer / Inventory / Quest Log. Como uma imagem
+    # O menu (animado ou em abas paradas) substitui as seções antigas. Como uma imagem
     # não tem links por região, os links dos cartões e missões vão numa linha de texto abaixo.
-    links = [(c["title"], c["link"]) for c in p["cards"] if c.get("link")] + \
-            [(q["title"], q["link"]) for q in p["quests"] if q.get("link")]
+    links = [(q["title"], q["link"]) for q in p["quests"] if q.get("link")]
     link_line = (f'<p align="center"><sub>{" · ".join(f"<a href=\"{u}\">{escape(t)}</a>" for t, u in links)}</sub></p>\n\n'
                  if links else "")
     alt = (f'{p["name"]}: {plain(p["greeting"])} '
-           f'Cards: {"; ".join(c["title"] + ", " + plain(c["sub"]) for c in p["cards"])}. '
            f'Inventory: {", ".join(it["name"] for r in p["inventory"] for it in r["items"])}. '
            f'Quests: {"; ".join(q["title"] + " (" + q.get("status", "") + ")" for q in p["quests"])}.')
+    if MENU_ANIMATED:
+        menu = f'<p align="center">{img("menu", alt, base=base)}</p>'
+    else:
+        menu = "\n\n".join(f'<p align="center">{img(name, MENU_SCREENS[i][0], base=base)}</p>'
+                             for name, i in MENU_TABS.items())
     return f"""<p align="center">{img("hero", f'{p["name"]}: {plain(p["greeting"])}', base=base)}</p>
 
-<p align="center">{img("menu", alt, base=base)}</p>
+{menu}
 
 {link_line}<p align="center">{linked("contact", f'Send a message: {p["contact"]["email"]}', "mailto:" + p["contact"]["email"], base=base)}</p>
 
@@ -821,18 +837,18 @@ def build_profile(p, base="assets"):
 GENERATED = "<!-- Gerado por tools/build.py. Não edite à mão: edite o script e rode de novo. -->\n\n"
 
 
-TITLES = {"title-adventurer": "Adventurer", "title-inventory": "Inventory", "title-quests": "Quest Log"}
+TITLES = {"title-inventory": "Inventory", "title-quests": "Quest Log"}
 
 
 def DESCRIPTIONS(p, files):
     """Uma linha por SVG gerado, na ordem em que main() os cria."""
     known = {"hero": "Hearts, stamina wheel and the greeting dialogue box",
              "inventory": "Inventory menu: category tabs, item grid, showcase and description panel",
-             "menu": "Animated game menu that cycles Adventurer → Inventory → Adventure Log (used in the profile)",
+             "menu": "Animated game menu that switches between Adventure Log and Inventory",
+             "menu-inventory": "Menu tab Inventory, as a still image",
+             "menu-quests": "Menu tab Adventure Log, as a still image",
              "contact": "\"Send message?\" prompt with the e-mail link",
              "divider": "Ornamental divider above the footer"}
-    for c in p["cards"]:
-        known[c["file"]] = f'Card: {c["label"]}'
     for q in p["quests"]:
         known[q["file"]] = f'Quest log entry: {q["kind"].lower()} "{q["title"]}"'
     return [(n, known.get(n, f'Section title "{TITLES.get(n, n)}"')) for n in files]
@@ -847,9 +863,9 @@ def build_docs(p, files, profile):
     return GENERATED + f"""# GitHub profile builder
 
 A Python script that renders a GitHub profile README as a set of SVG images styled after an
-open-world adventure game HUD: hearts and a stamina wheel, a dialogue box, and an animated
-game menu that flips between an adventurer page, an inventory and a quest log on its own,
-followed by a "send message?" prompt.
+open-world adventure game HUD: hearts and a stamina wheel, a dialogue box, a game menu with
+an Adventure Log (your roles and degrees, as quests) and an Inventory (your tools), and a
+"send message?" prompt.
 
 The **Result** section below is the real output of [`tools/build.py`](tools/build.py), rendered
 from the placeholder `EXAMPLE` profile. This README is generated by the same script, so the
@@ -870,8 +886,9 @@ themes, with nothing installed on the viewer's side.
 
 The menu's "tabs" are an SVG animation (SMIL): GitHub plays it inside the `<img>`, so each
 screen crossfades into the next every few seconds without any JavaScript. Viewers that don't
-run SVG animation see the first screen. The standalone section images (cards, inventory,
-quests) are still generated, if you prefer a static layout.
+run SVG animation see the first screen. Each tab is also written as a still image
+(`menu-quests.svg`, `menu-inventory.svg`); set `MENU_ANIMATED = False` in
+`build.py` to show those stacked instead of the animation.
 
 Because the text is baked into the images, **never edit the SVGs by hand**: change the
 `PROFILE` dictionary at the top of `build.py` and run the script again.
@@ -903,10 +920,9 @@ feeds the preview in this README:
 | `name`, `greeting` | Dialogue box in the hero | `{escape(p["name"])}` |
 | `hearts` | Hearts in the top-left: `full`, `empty` and yellow `bonus` | {h["full"]} full, {h["empty"]} empty, {h["bonus"]} bonus |
 | `stamina` | Fill of the stamina wheel, from 0 to 1 | `{p["stamina"]}` |
-| `cards` | The three cards under "Adventurer"; `selected` adds a glow | {len(p["cards"])} cards |
 | `inventory` | Item categories (tabs) and their items; the `selected` item fills the showcase and description panel. A category can set a one-letter `icon` for its tab | {len(p["inventory"])} categories, {sum(len(r["items"]) for r in p["inventory"])} items |
 | `gems` | Optional counter in the inventory's top-right corner | {p.get("gems", "not set")} |
-| `quests` | Quest log entries; `status` is `Complete`, `In progress` or `Ongoing` | {len(p["quests"])} quests |
+| `quests` | Adventure Log entries (your roles and degrees), in list order; `selected` picks the one shown in the panel, `where` extends the legend, `status` is `Complete`, `In progress` or `Ongoing` | {len(p["quests"])} entries |
 | `contact` | E-mail and button labels of the message prompt | |
 | `footer` | Line at the very bottom | |
 
@@ -951,9 +967,9 @@ def build_all(p, out):
         **{name: build_title(label) for name, label in TITLES.items()},
         "inventory": build_inventory(p),
         "menu": build_menu(p),
+        **{name: build_menu_tab(p, i) for name, i in MENU_TABS.items()},
         "contact": build_contact(p["contact"]),
         "divider": build_divider(),
-        **build_cards(p["cards"]),
         **{q["file"]: build_quest(q) for q in p["quests"]},
     }
     out.mkdir(parents=True, exist_ok=True)
